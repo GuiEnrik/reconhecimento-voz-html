@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reconhecimento de Voz</title>
+</head>
+<body>
+
+<input type="text" id="textoReconhecido" placeholder="Fale algo..." style="width: 300px;">
+<button onclick="iniciarReconhecimento()">Iniciar Reconhecimento</button>
+
+<script>
+function iniciarReconhecimento() {
+    // Verificar se o navegador suporta a API de Reconhecimento de Voz
+    if ('webkitSpeechRecognition' in window) {
+        // Criar uma nova instância de Reconhecimento de Voz
+        const recognition = new webkitSpeechRecognition();
+
+        // Configurar o idioma para o reconhecimento de voz (opcional)
+        recognition.lang = 'pt-BR'; // Defina o idioma desejado, se aplicável
+
+        // Configurar outras opções, se necessário
+        // recognition.continuous = true; // Reconhecimento contínuo
+        // recognition.interimResults = true; // Resultados intermediários
+
+        // Evento chamado quando o reconhecimento de voz é iniciado
+        recognition.onstart = function() {
+            console.log('Reconhecimento de voz iniciado.');
+        };
+
+        // Evento chamado quando o reconhecimento de voz é encerrado
+        recognition.onend = function() {
+            console.log('Reconhecimento de voz encerrado.');
+        };
+
+        // Evento chamado quando o texto é reconhecido
+        recognition.onresult = function(event) {
+            // Obtém o texto reconhecido a partir do evento
+            const textoReconhecido = event.results[0][0].transcript;
+
+            // Exibe o texto reconhecido no campo de entrada
+            document.getElementById('textoReconhecido').value = textoReconhecido;
+        };
+
+        // Iniciar o reconhecimento de voz
+        recognition.start();
+    } else {
+        alert('Este navegador não suporta reconhecimento de voz.');
+    }
+}
+</script>
+
+</body>
+</html>
